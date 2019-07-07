@@ -32,32 +32,38 @@ each element of array A is an integer within the range [0..2,147,483,647].
 Copyright 2009–2018 by Codility Limited. All Rights Reserved. Unauthorized copying, publication or disclosure prohibited.
 
 */
-function solution(data) {
-  let result = 0
-  const minMaxPoints = data
-    .map((length, center) => [center - length, center + length])
-    .sort(([a,], [b,]) => (a - b))
+function solution(A) {
+    const coordsCalculator = (radius, center) => ([
+        center - radius,
+        center + radius
+    ])
 
-  for (let key = 0; key < data.length; key++) {
-    const [currentRoundMin, currentRoundMax] = minMaxPoints[key]
-
-    for (let innerKey = key + 1; innerKey < data.length; innerKey++) {
-      const [checkIntersectsRoundMin, checkIntersectsRoundMax] = minMaxPoints[innerKey]
-
-      if (currentRoundMin > checkIntersectsRoundMax || currentRoundMax < checkIntersectsRoundMin) {
-        break
-      } else {
-        result++
-      }
-
-      if (result > 10000000) {
-        return -1
-      }
+    const sortedCircles = A.map(coordsCalculator).sort(([minLeft,], [minRight,]) => (minLeft - minRight))
+    
+    let result = 0
+    
+    for (let centerLeft = 0; centerLeft < sortedCircles.length; centerLeft++) {
+        const [minLeft, maxLeft] = sortedCircles[centerLeft]
+        
+        for (let centerRight = centerLeft + 1; centerRight < sortedCircles.length; centerRight++) {
+            
+            const [minRight,] = sortedCircles[centerRight]
+            
+            if (maxLeft < minRight) {
+                break
+            }
+            
+            result++
+            
+            if (result > 10000000) {
+                return -1
+            }
+        }
     }
-  }
-
-  return result
+        
+    return result
 }
+
 
 const test1 = () => {
   const data = [1, 5, 2, 1, 4, 0]
