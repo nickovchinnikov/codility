@@ -63,32 +63,3 @@ function solution(A) {
         
     return result
 }
-
-
-const test1 = () => {
-  const data = [1, 5, 2, 1, 4, 0]
-
-  const resultShouldBe = 11;
-  
-  console.time("solution");
-  const result = solution(data);
-  console.timeEnd("solution");
-
-  console.log(result)
-  console.log(resultShouldBe)
-};
-test1();
-console.log("\n");
-
-const test2 = () => {
-  const data = Array.from({ length: 1000000 }, () => Math.floor(Math.random() * 100));
-
-  console.time("solution");
-  const result = solution(data);
-  console.timeEnd("solution");
-
-  console.log(result)
-};
-
-test2();
-console.log("\n");
